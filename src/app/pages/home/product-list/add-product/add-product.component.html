@@ -1,0 +1,40 @@
+<div class="flex flex-col mt-3">
+  <div>
+    <button
+      mat-stroked-button
+      class="flex justify-center"
+      (click)="addProduct = !addProduct"
+    >
+      <mat-icon>{{ !addProduct ? "add" : "close" }}</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="addProduct" class="mt-4">
+    <form [formGroup]="addProductForm" class="w-full flex flex-wrap gap-2">
+      <mat-form-field class="w-40" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" formControlName="productName" />
+      </mat-form-field>
+      <mat-form-field class="w-40" appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput placeholder="Price" formControlName="productPrice" />
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Description</mat-label>
+        <input
+          matInput
+          placeholder="Description"
+          formControlName="productDetails"
+        />
+      </mat-form-field>
+      <div class="w-40 mt-1">
+        <button
+          class="w-full add-product-button"
+          mat-button
+          (click)="submitAddProduct()"
+        >
+          Add
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

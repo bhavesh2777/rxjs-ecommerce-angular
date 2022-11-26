@@ -1,1 +1,5 @@
-<p>main works!</p>
+<div class="mb-4 mt-10 text-base font-semibold">Pages</div>
+<mat-divider></mat-divider>
+<div class="flex flex-wrap gap-5 p-5">
+  <app-card *ngFor="let item of cardList" [item]="item"></app-card>
+</div>
