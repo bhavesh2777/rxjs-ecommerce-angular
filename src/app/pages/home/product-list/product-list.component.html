@@ -8,6 +8,7 @@
 <app-add-product></app-add-product>
 <div class="mb-4 mt-10 text-base font-semibold">Products List</div>
 <mat-divider></mat-divider>
-<div class="p-5">
+<mat-spinner *ngIf="listLoader" class="mx-auto my-7"></mat-spinner>
+<div class="p-5" *ngIf="!listLoader">
   <app-common-table></app-common-table>
 </div>
