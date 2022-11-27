@@ -48,7 +48,7 @@ export class CartComponent {
   }
 
   ngOnDestroy() {
-    this.homeService.cartTableData$.next([]);
-    this.homeService.cartTableColumns$.next([]);
+    this.homeService.cartTableData$.next(null);
+    this.homeService.cartTableColumns$.next(null);
   }
 }
