@@ -7,8 +7,18 @@ import { CardComponent } from './card/card.component';
 import { CommonTableComponent } from './common-table/common-table.component';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, CardComponent, CommonTableComponent],
-  exports: [HeaderComponent, FooterComponent, CardComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    CardComponent,
+    CommonTableComponent,
+  ],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    CardComponent,
+    CommonTableComponent,
+  ],
   imports: [CommonModule, MaterialModule],
 })
 export class SharedModule {}

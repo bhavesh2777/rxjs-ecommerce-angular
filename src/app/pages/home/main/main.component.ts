@@ -14,7 +14,7 @@ export class MainComponent {
     },
     {
       name: CardType.CART,
-      description: 'A cart has products inside it!',
+      description: 'A cart is a wishlist of products!',
     },
   ];
 }

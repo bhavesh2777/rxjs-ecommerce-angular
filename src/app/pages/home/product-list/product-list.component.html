@@ -1,12 +1,13 @@
-<div class="mb-4 mt-10 text-base font-semibold">Add Products</div>
+<div class="flex gap-3">
+  <a class="mt-10" routerLink="/home/main">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <div class="mb-4 mt-10 text-base font-semibold">Add Products</div>
+</div>
 <mat-divider></mat-divider>
 <app-add-product></app-add-product>
 <div class="mb-4 mt-10 text-base font-semibold">Products List</div>
 <mat-divider></mat-divider>
-<div class="flex flex-wrap gap-5 p-5">
-  <ul>
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-  </ul>
+<div class="p-5">
+  <app-common-table></app-common-table>
 </div>

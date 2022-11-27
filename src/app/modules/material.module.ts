@@ -8,6 +8,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -21,6 +23,8 @@ import { MatTableModule } from '@angular/material/table';
     MatDividerModule,
     MatIconModule,
     MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   exports: [
     FormsModule,
@@ -32,6 +36,8 @@ import { MatTableModule } from '@angular/material/table';
     MatDividerModule,
     MatIconModule,
     MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
 })
 export class MaterialModule {}
