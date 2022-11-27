@@ -27,7 +27,21 @@
             <mat-icon> shopping_cart_checkout </mat-icon>
           </button>
         </div>
-        <div *ngIf="column.columnDef != 'add_in_cart'">
+        <div *ngIf="column.columnDef == 'remove_from_cart'">
+          <button
+            mat-stroked-button
+            class="flex justify-center"
+            (click)="removeFromCart()"
+          >
+            <mat-icon> shopping_cart_checkout </mat-icon>
+          </button>
+        </div>
+        <div
+          *ngIf="
+            column.columnDef != 'add_in_cart' &&
+            column.columnDef != 'remove_from_cart'
+          "
+        >
           {{ column.cell(row) }}
         </div>
       </td>
