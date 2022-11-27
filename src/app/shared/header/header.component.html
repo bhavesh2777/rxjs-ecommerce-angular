@@ -1,1 +1,16 @@
-<p>header works!</p>
+<div class="w-full bg-[#68d9d9] shadow-md">
+  <div class="flex justify-between px-6 py-4">
+    <div class="text-white text-lg mx-4 my-2">Viitorcloud</div>
+
+    <button
+      class="text-white text-lg mx-4 my-2"
+      mat-button
+      [matMenuTriggerFor]="menu"
+    >
+      Welcome {{ fullName }}
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="logoutNow()">Logout</button>
+    </mat-menu>
+  </div>
+</div>
