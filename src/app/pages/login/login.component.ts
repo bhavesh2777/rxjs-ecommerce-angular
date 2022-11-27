@@ -5,7 +5,7 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { LoginForm } from 'src/app/models/login.model';
 import { CommonService } from 'src/app/services/common.service';
 import { LoginService } from './login.service';
 
@@ -29,7 +29,7 @@ export class LoginComponent {
   submitLogin() {
     this.loginLoader = true;
     if (this.loginForm.valid) {
-      const loginReqBody = {
+      const loginReqBody: LoginForm = {
         username: this.loginForm.controls['username'].value,
         password: this.loginForm.controls['password'].value,
         expiresInMins: 60,
