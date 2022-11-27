@@ -3,3 +3,5 @@ export const snackBarConfig: any = {
   verticalPosition: 'top',
   duration: 3000,
 };
+
+export const apiUrl = 'https://dummyjson.com/';

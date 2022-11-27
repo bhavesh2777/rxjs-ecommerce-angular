@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LoggedinGuard } from 'src/app/auth/loggedin.guard';
 import { LoginComponent } from './login.component';
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [LoggedinGuard],
   },
 ];
 

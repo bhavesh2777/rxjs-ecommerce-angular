@@ -7,7 +7,7 @@
       mat-button
       [matMenuTriggerFor]="menu"
     >
-      Welcome Bhavesh Panchal
+      Welcome {{ fullName }}
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
       <button mat-menu-item (click)="logoutNow()">Logout</button>

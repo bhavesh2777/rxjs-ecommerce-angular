@@ -1,23 +1,49 @@
 <div class="h-screen w-screen bg-slate-100 relative">
   <div class="absolute z-20 bg-[#68d9d9] h-1/4 w-full shadow-md"></div>
   <div class="flex justify-center items-center w-full h-full relative z-50">
-    <div class="h-2/3 w-2/3 bg-white m-auto shadow-2xl rounded-md">
+    <div class="h-2/3 w-1/2 bg-white m-auto shadow-2xl rounded-md">
       <div
-        class="p-4 w-1/2 flex flex-col m-auto items-center justify-center h-full"
+        class="p-4 w-1/2 flex flex-col m-auto items-center justify-start h-full"
       >
         <div class="w-full flex justify-center text-2xl text-[#003334] mb-7">
+          ViitorCloud
+        </div>
+        <div class="w-full flex justify-center text-xl text-[#003334] my-7">
           Login
         </div>
-        <form [formGroup]="loginForm" class="w-full flex flex-col gap-3">
+        <mat-spinner *ngIf="loginLoader"></mat-spinner>
+        <form
+          [formGroup]="loginForm"
+          *ngIf="!loginLoader"
+          class="w-full flex flex-col gap-3"
+        >
           <mat-form-field class="w-full" appearance="fill">
-            <mat-label>Email</mat-label>
-            <input matInput placeholder="Email" formControlName="email" />
-            <!-- <mat-error *ngIf="email.invalid">You must enter a value!</mat-error> -->
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Username" formControlName="username" />
+            <mat-error
+              *ngIf="loginForm.controls['username'].hasError('required')"
+              >You must enter a value</mat-error
+            >
           </mat-form-field>
           <mat-form-field class="w-full" appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput placeholder="Password" formControlName="password" />
-            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
+            <input
+              matInput
+              type="password"
+              placeholder="Password"
+              formControlName="password"
+            />
+            <mat-error
+              *ngIf="loginForm.controls['password'].hasError('required')"
+              >You must enter a password</mat-error
+            >
+            <mat-error
+              *ngIf="
+                loginForm.controls['password'].invalid &&
+                !loginForm.controls['password'].hasError('required')
+              "
+              >Not a valid password</mat-error
+            >
           </mat-form-field>
           <div class="w-full mt-3">
             <button

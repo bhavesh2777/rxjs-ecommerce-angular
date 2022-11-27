@@ -7,7 +7,10 @@ import { LoginService } from 'src/app/pages/login/login.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(private readonly loginService: LoginService) {}
+  fullName = '';
+  constructor(private readonly loginService: LoginService) {
+    this.fullName = this.loginService.fetchNameFromStorage();
+  }
 
   logoutNow() {
     this.loginService.logout();

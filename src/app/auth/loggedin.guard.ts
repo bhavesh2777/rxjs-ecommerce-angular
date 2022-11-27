@@ -12,7 +12,7 @@ import { LoginService } from '../pages/login/login.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class LoggedinGuard implements CanActivate {
   constructor(
     private readonly myRoute: Router,
     private readonly loginService: LoginService
@@ -27,8 +27,8 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     const token = this.loginService.fetchTokenFromStorage();
-    if (!token) {
-      this.myRoute.navigate(['login']);
+    if (token) {
+      this.myRoute.navigate(['home/main']);
       return false;
     }
     return true;
