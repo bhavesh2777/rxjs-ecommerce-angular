@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { apiUrl } from 'src/app/global';
+import { LoginForm, LoginResponse } from 'src/app/models/login.model';
 import { CommonService } from 'src/app/services/common.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +16,8 @@ export class LoginService {
     private readonly commonService: CommonService
   ) {}
 
-  loginApi(loginBody) {
-    return this.http.post(apiUrl + 'auth/login', loginBody);
+  loginApi(loginBody: LoginForm): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(apiUrl + 'auth/login', loginBody);
   }
 
   logout() {
@@ -24,7 +26,7 @@ export class LoginService {
     this.router.navigate(['login']);
   }
 
-  handleLogin(loginResponse) {
+  handleLogin(loginResponse: LoginResponse) {
     if (loginResponse.id) {
       const fullName = loginResponse.firstName + ' ' + loginResponse.lastName;
       localStorage.setItem('token', 'Bearer ' + loginResponse.token);

@@ -146,6 +146,8 @@ export class CommonTableComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.productColSub?.unsubscribe();
     this.productDataSub?.unsubscribe();
+    this.cartDataSub?.unsubscribe();
+    this.cartColSub?.unsubscribe();
     this.searchProductSub?.unsubscribe();
     this.newProductSub?.unsubscribe();
   }
