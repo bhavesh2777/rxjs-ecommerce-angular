@@ -5,12 +5,16 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
+
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Product } from 'src/app/models/home.model';
 import { HomeService } from 'src/app/pages/home/home.service';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { Subscription, of } from 'rxjs';
+import { debounceTime, switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-common-table',
@@ -18,6 +22,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./common-table.component.scss'],
 })
 export class CommonTableComponent implements OnInit, AfterViewInit, OnDestroy {
+  searchControl = new FormControl(null);
   dataSource: MatTableDataSource<Product>;
   columns = [];
   displayedColumns = [];
@@ -27,37 +32,56 @@ export class CommonTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   cartDataSub: Subscription;
   cartColSub: Subscription;
-  // private productUnsubscribe: Subject<void> = new Subject();
+  searchProductSub: Subscription;
+  newProductSub: Subscription;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private readonly homeService: HomeService) {}
+  currentURL = '';
+
+  constructor(
+    private readonly router: Router,
+    private readonly homeService: HomeService
+  ) {}
 
   ngOnInit() {
+    this.currentURL = this.router.url;
     // Product subscriptions
     this.productDataSub = this.homeService.productTableData$.subscribe(
       (tableData) => {
-        if (tableData?.length != 0) this.arrangeDataSource(tableData);
+        if (tableData) this.arrangeDataSource(tableData);
       }
     );
     this.productColSub = this.homeService.productTableColumns$.subscribe(
       (tableCol) => {
-        if (tableCol?.length != 0) this.arrangeDataColumns(tableCol);
+        if (tableCol) this.arrangeDataColumns(tableCol);
       }
     );
 
     // Cart subscriptions
     this.cartDataSub = this.homeService.cartTableData$.subscribe(
       (tableData) => {
-        if (tableData?.length != 0) this.arrangeDataSource(tableData);
+        if (tableData) this.arrangeDataSource(tableData);
       }
     );
     this.cartColSub = this.homeService.cartTableColumns$.subscribe(
       (tableCol) => {
-        if (tableCol?.length != 0) this.arrangeDataColumns(tableCol);
+        if (tableCol) this.arrangeDataColumns(tableCol);
       }
     );
+
+    this.searchProductSub = this.searchControl.valueChanges
+      .pipe(
+        map((item) => item.trim().toLowerCase()),
+        debounceTime(100),
+        switchMap((value) => {
+          if (this.currentURL.includes('product-list'))
+            return this.homeService.searchProductApi(value);
+          else return of(value);
+        })
+      )
+      .subscribe((searchRes) => this.handleSearch(searchRes));
 
     // this.productSub = combineLatest([
     //   this.homeService.productTableData$,
@@ -73,18 +97,7 @@ export class CommonTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.assignPaginationNSort();
   }
 
   addProductInCart() {}
@@ -93,6 +106,7 @@ export class CommonTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private arrangeDataSource(tableData: any) {
     this.dataSource = new MatTableDataSource(tableData);
+    this.assignPaginationNSort();
   }
 
   private arrangeDataColumns(dataColumns: any) {
@@ -100,10 +114,39 @@ export class CommonTableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.displayedColumns = dataColumns.map((c) => c.columnDef);
   }
 
+  private assignPaginationNSort() {
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+  }
+
+  private handleCartSearch(cartStr: string) {
+    this.dataSource.filter = cartStr;
+  }
+
+  private handleSearch(searchRes: any) {
+    if (this.currentURL.includes('cart')) this.handleCartSearch(searchRes);
+    else if (this.currentURL.includes('product-list'))
+      this.handleProductSearch(searchRes);
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  private handleProductSearch(productResObj: any) {
+    const productObs$ = of(productResObj).pipe(
+      map((item: any) => item.products)
+    );
+    this.newProductSub = productObs$.subscribe((productList) => {
+      this.homeService.productTableData$.next(productList);
+    });
+  }
+
   ngOnDestroy() {
     this.productColSub?.unsubscribe();
     this.productDataSub?.unsubscribe();
-    // this.productUnsubscribe.next();
-    // this.productUnsubscribe.complete();
+    this.searchProductSub?.unsubscribe();
+    this.newProductSub?.unsubscribe();
   }
 }

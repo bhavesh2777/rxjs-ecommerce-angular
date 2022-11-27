@@ -10,7 +10,10 @@
       Welcome {{ fullName }}
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
-      <button mat-menu-item (click)="logoutNow()">Logout</button>
+      <button mat-menu-item (click)="logoutNow()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
     </mat-menu>
   </div>
 </div>

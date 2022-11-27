@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiUrl } from 'src/app/global';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomeService {
-  productTableData$ = new BehaviorSubject<any[]>([]);
-  productTableColumns$ = new BehaviorSubject<any[]>([]);
+  productTableData$ = new BehaviorSubject<any[]>(null);
+  productTableColumns$ = new BehaviorSubject<any[]>(null);
 
-  cartTableData$ = new BehaviorSubject<any[]>([]);
-  cartTableColumns$ = new BehaviorSubject<any[]>([]);
+  cartTableData$ = new BehaviorSubject<any[]>(null);
+  cartTableColumns$ = new BehaviorSubject<any[]>(null);
 
   constructor(private readonly http: HttpClient) {}
 
@@ -21,6 +21,10 @@ export class HomeService {
 
   addProductApi(productBody) {
     return this.http.post(apiUrl + 'products/add', productBody);
+  }
+
+  searchProductApi(searchString: string) {
+    return this.http.get(apiUrl + 'products/search?q=' + searchString);
   }
 
   getAllCartApi() {

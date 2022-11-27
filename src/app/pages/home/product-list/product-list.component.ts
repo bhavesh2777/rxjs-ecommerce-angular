@@ -42,7 +42,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.homeService.productTableData$.next([]);
-    this.homeService.productTableColumns$.next([]);
+    this.homeService.productTableData$.next(null);
+    this.homeService.productTableColumns$.next(null);
   }
 }
